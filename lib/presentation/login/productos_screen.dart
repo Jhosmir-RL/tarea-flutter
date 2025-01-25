@@ -5,203 +5,202 @@ class ProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, String>> products = [
-      {
-        "name": "Zapatillas",
-        "price": "129.99",
-        "image":
-        "https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,e_sharpen:95,w_2000,h_2000/global/395205/02/sv01/fnd/PER/fmt/png/Zapatillas-Suede-XL-unisex",
-      },
-      {
-        "name": "Camiseta",
-        "price": "59.99",
-        "image":
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwdXtmHFhYlmOvXXQzOWCYPq_7x_LdW7clmA&s",
-      },
-      {
-        "name": "Botella",
-        "price": "39.99",
-        "image":
-        "https://wecool.pe/wp-content/uploads/2024/05/1litroazu.jpg",
-      },
-      {
-        "name": "Gafas",
-        "price": "79.99",
-        "image":
-        "https://goeteyewear.com/cdn/shop/files/NIXMBLKBLU__GOET_NIX-S-MBLKBLU-56-15-135__2500x1400-Quarter.jpg?v=1701726632&width=533",
-      },
-    ];
-
     return Scaffold(
-      backgroundColor: const Color(0xFFEFF3F6),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFF3B82F6),
-        elevation: 0,
-        title: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: const Text(
-            "Productos",
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
+      body: Stack(
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height * 0.45,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Color(0xFF4169E1),
             ),
           ),
-        ),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          // Filtro de categorías
-          Container(
-            color: const Color(0xFF3B82F6),
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+          SafeArea(
+            child: Column(
               children: [
-                categoryButton(text: "Zapatillas"),
-                categoryButton(text: "Camisetas"),
-                categoryButton(text: "Botellas"),
-                categoryButton(text: "Gafas"),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 80.0),
+                  child: Text(
+                    'Products',
+                    style: TextStyle(
+                      fontSize: 48,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+
+                SizedBox(height: 20),
+
+                Expanded(
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 24),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30),
+                        topRight: Radius.circular(30),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.1),
+                          blurRadius: 10,
+                          offset: Offset(0, -5),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              children: [
+                                _buildCategoryChip('All products'),
+                                _buildCategoryChip('Clothes'),
+                                _buildCategoryChip('Systems'),
+                                _buildCategoryChip('Le grand'),
+                              ],
+                            ),
+                          ),
+                        ),
+
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: GridView.count(
+                              crossAxisCount: 2,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 20,
+                              childAspectRatio: 0.85,
+                              children: [
+                                _buildProductCard('Ship', '\$14.99'),
+                                _buildProductCard('T-Shirt', '\$24.99'),
+                                _buildProductCard('Perfume', '\$34.99'),
+                                _buildProductCard('Glasses', '\$19.99'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
-          // Lista de productos
-          Expanded(
-            child: GridView.builder(
-              padding: const EdgeInsets.all(16),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 80,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.white.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, -5),
+                  ),
+                ],
               ),
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                final product = products[index];
-                return Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 3,
-                  child: Column(
-                    children: [
-                      // Imagen del producto
-                      Expanded(
-                        flex: 2,
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(12),
-                          ),
-                          child: Image.network(
-                            product["image"]!,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
-                        ),
-                      ),
-                      // Información del producto
-                      Expanded(
-                        flex: 1,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 8.0, horizontal: 10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product["name"]!,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              const SizedBox(height: 5),
-                              Text(
-                                "S/. ${product["price"]}",
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              const Spacer(),
-                              Row(
-                                mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
-                                children: const [
-                                  Icon(
-                                    Icons.favorite_border,
-                                    color: Colors.red,
-                                    size: 20,
-                                  ),
-                                  Icon(
-                                    Icons.shopping_cart_outlined,
-                                    color: Colors.grey,
-                                    size: 20,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  _buildNavIcon(Icons.shopping_cart_outlined),
+                  _buildNavIcon(Icons.search),
+                  _buildNavIcon(Icons.home),
+                  _buildNavIcon(Icons.person_outline),
+                  _buildNavIcon(Icons.menu),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: const Color(0xFF3B82F6),
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white70,
-        elevation: 0,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Buscar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: 'Carrito',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Perfil',
           ),
         ],
       ),
     );
   }
 
-  Widget categoryButton({required String text}) {
-    return TextButton(
-      style: TextButton.styleFrom(
+  Widget _buildNavIcon(IconData icon) {
+    return Icon(
+      icon,
+      size: 58,
+      color: Colors.blue,
+    );
+  }
+
+  Widget _buildCategoryChip(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 12.0),
+      child: Chip(
+        label: Text(
+          label,
+          style: TextStyle(
+            color: Color(0xFF4169E1),
+            fontSize: 14,
+          ),
+        ),
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
+          side: BorderSide(color: Color(0xFF4169E1)),
         ),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       ),
-      onPressed: () {},
-      child: Text(
-        text,
-        style: const TextStyle(
-          color: Colors.black87,
-          fontWeight: FontWeight.bold,
-          fontSize: 14,
-        ),
+    );
+  }
+
+  Widget _buildProductCard(String name, String price) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFFE3F2FD),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            name == 'Ship' ? Icons.directions_boat :
+            name == 'T-Shirt' ? Icons.checkroom :
+            name == 'Perfume' ? Icons.local_drink :
+            Icons.visibility,
+            size: 74,
+            color: Color(0xFF4169E1),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            name,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const SizedBox(height: 4),
+          Text(
+            price,
+            style: TextStyle(
+              fontSize: 16,
+              color: Color(0xFF4169E1),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              5,
+                  (index) => Icon(
+                Icons.star,
+                size: 16,
+                color: index < 4 ? Color(0xFF4169E1) : Colors.grey,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
